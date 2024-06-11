@@ -38,7 +38,7 @@ polish_db : participant_details
 	sqlite-utils vacuum nlrb.db
 
 tally.csv :
-	python scripts/tallies.py | python scripts/retry_on_302.py temp_$@
+	python3 scripts/tallies.py | python3 scripts/retry_on_302.py temp_$@
 	tr -d '\000' < temp_$@ > $@
 	rm temp_$@
 
@@ -67,7 +67,7 @@ new_open_or_updated_cases.csv : new_filing.csv | nlrb.db
 	tail -n +2 $< | sqlite3 nlrb.db -init scripts/to_scrape.sql -bail 2>error > $@
 
 new_filing.csv :
-	python scripts/filings.py | python scripts/retry_on_302.py temp_$@
+	python3 scripts/filings.py | python3 scripts/retry_on_302.py temp_$@
 	tr -d '\000' < temp_$@ > $@
 	rm temp_$@
 
